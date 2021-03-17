@@ -1,0 +1,15 @@
+{
+  "name": "vuejs-api-call",
+  "version": "1.0.0",
+  "description": "cours pour gridsome et site statique",
+  "main": "index.js",
+  "dependencies": {
+    "gridsome": "^0.7.23"
+  },
+  "scripts": {
+    "develop": "gridsome develop",
+    "build": "gridsome build"
+  },
+  "author": "",
+  "license": "ISC"
+}
