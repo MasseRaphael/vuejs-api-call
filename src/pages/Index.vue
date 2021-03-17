@@ -1,29 +1,42 @@
 <template>
     <Layout>
-        <pre>{{ agendaResult }}</pre>
-        <button v-on:click="apiCall()">Afficher l'agenda</button>
+        <article v-for="event in agendaEvents" :key="event.uid">
+            <h1>{{ event.title.fr }}</h1>
+            <img
+            v-if="event.image"
+             :src="event.image.base + events.image.filemane"/>
+            <p>
+                Date : {{ event.dateRange.fr }}
+            </p>
+            <address>
+                {{ event.location.name }}<br>
+                {{ event.location.address }}
+            </address>
+        </article>
     </Layout>
 </template>
 <script>
 export default{
     data(){
         return {
-            AGENDA_URL: "openagenda.com",
-            AGENDA_UID: '84339284',
-            AGENDA_KEY: 'f510f08cc7ab41feb394928a2123c677',
-            agendaResult: ''
+            agenda: ''
         }
     },
-    methods: {
-        apiCall(){
-            fetch(`https://${this.AGENDA_URL}/agendas/${this.AGENDA_UID}/events.v2.json?key=${this.AGENDA_KEY}`)
-            .then(response =>{
-                return response.json()
-            })
-            .then(json => {
-                this.agendaResult = json
-            })
+    async mounted() {
+        const result = await fetch(`https://${process.env.GRIDSOME_AGENDA_URL}/agendas/${process.env.GRIDSOME_AGENDA_UID}/events.v2.json?key=${process.env.GRIDSOME_AGENDA_KEY}`)
+        .then(response =>{
+            return response.json()
+        })
+        .then(json => {
+            return json
+        })
+        this.agenda = result
+    },
+    computed: {
+        agendaEvents(){
+            return this.agenda.events
         }
     }
 }
+
 </script>
